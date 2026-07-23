@@ -99,3 +99,35 @@ button:hover{
 .hero button:hover{
   background:#e68a00;
 }
+.categories{
+  padding:50px 20px;
+  text-align:center;
+  background:#fff;
+}
+
+.categories h2{
+  margin-bottom:30px;
+}
+
+.category-box{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:20px;
+  max-width:900px;
+  margin:auto;
+}
+
+.category-box div{
+  background:#f4f4f4;
+  padding:25px;
+  border-radius:10px;
+  font-size:20px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.category-box div:hover{
+  background:#ff9900;
+  color:white;
+}
