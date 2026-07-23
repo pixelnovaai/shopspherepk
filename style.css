@@ -131,3 +131,14 @@ button:hover{
   background:#ff9900;
   color:white;
 }
+footer{
+  background:#131921;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:40px;
+}
+
+footer p{
+  margin:8px 0;
+}
