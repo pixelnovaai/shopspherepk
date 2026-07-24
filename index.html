@@ -10,17 +10,35 @@
 <body>
 
 <header class="header">
-  <div class="logo">🛒 NexaCart</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
 
-  <input type="text" placeholder="Search products..." class="search">
+    <a class="navbar-brand fw-bold" href="index.html">
+      🛒 NexaCart
+    </a>
 
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="faq.html">FAQ</a>
-  </nav>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+
+      <form class="d-flex mx-auto" style="width:50%;">
+        <input class="form-control" type="search" placeholder="Search products...">
+      </form>
+
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+      </ul>
+
+    </div>
+
+  </div>
+</nav>
 </header>
 
 <section class="hero">
