@@ -1,68 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NexaCart</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexaCart</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<footer>
-  <p>© 2026 NexaCart. All Rights Reserved.</p>
-  <p>Email: support@nexacart.com</p>
-</footer>
 <body>
 
-<header>
- <section class="hero">
-  <section class="categories">
-  <h2>Shop by Category</h2>
+<header class="header">
+  <div class="logo">🛒 NexaCart</div>
 
-  <div class="category-box">
-    <div>📱 Electronics</div>
-    <div>👕 Fashion</div>
-    <div>🏠 Home</div>
-    <div>💄 Beauty</div>
-    <div>🎮 Gaming</div>
-    <div>⚽ Sports</div>
-  </div>
-</section>
-  <div class="hero-content">
-    <h2>Welcome to NexaCart</h2>
-    <p>Discover the best products at amazing prices.</p>
-    <button>Shop Now</button>
-  </div>
-</section> 
-<h1>🛒 NexaCart</h1>
+  <input type="text" placeholder="Search products..." class="search">
 
-<input type="text" placeholder="Search products...">
-
-<nav>
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="faq.html">FAQ</a>
-</nav>
-
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="faq.html">FAQ</a>
+  </nav>
 </header>
 
-<main class="products">
+<section class="hero">
+  <h1>Welcome to NexaCart</h1>
+  <p>Your Trusted Online Shopping Store</p>
+  <a href="shop.html" class="btn">Shop Now</a>
+</section>
 
-<div class="product">
-<img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400" alt="Wireless Earbuds">
-<p>Rs. 2,999</p>
-<button>Buy Now</button>
-</div>
+<section class="categories">
+  <h2>Shop by Category</h2>
 
-<div class="product">
-<img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400" alt="Smart Watch">
-<p>Rs. 4,999</p>
-<button>Buy Now</button>
-</div>
+  <div class="grid">
+    <div class="card">📱 Electronics</div>
+    <div class="card">💻 Laptops</div>
+    <div class="card">⌚ Watches</div>
+    <div class="card">🎧 Headphones</div>
+    <div class="card">👕 Fashion</div>
+    <div class="card">🏠 Home</div>
+  </div>
+</section>
 
-</main>
+<section class="products">
+  <h2>Featured Products</h2>
 
-<script src="script.js"></script>
+  <div class="grid">
+    <div class="card">
+      <h3>Product 1</h3>
+      <p>Coming Soon</p>
+    </div>
+
+    <div class="card">
+      <h3>Product 2</h3>
+      <p>Coming Soon</p>
+    </div>
+
+    <div class="card">
+      <h3>Product 3</h3>
+      <p>Coming Soon</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 NexaCart | All Rights Reserved</p>
+</footer>
 
 </body>
 </html>
