@@ -42,9 +42,37 @@
 </header>
 
 <section class="hero">
-  <h1>Welcome to NexaCart</h1>
-  <p>Your Trusted Online Shopping Store</p>
-  <a href="shop.html" class="btn">Shop Now</a>
+<div id="heroSlider" class="carousel slide" data-bs-ride="carousel">
+
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <div class="bg-dark text-white text-center p-5">
+        <h1>Welcome to NexaCart</h1>
+        <p>Discover Amazing Deals Every Day</p>
+        <a href="shop.html" class="btn btn-warning">Shop Now</a>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <div class="bg-primary text-white text-center p-5">
+        <h1>Latest Electronics</h1>
+        <p>Top Quality Products at Great Prices</p>
+        <a href="shop.html" class="btn btn-light">Browse</a>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#heroSlider" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+
+</div> 
 </section>
 
 <section class="categories">
