@@ -70,3 +70,4 @@ document.addEventListener("click", (e) => {
     alert("Product added to cart!");
   }
 });
+console.log("shop.js loaded");
