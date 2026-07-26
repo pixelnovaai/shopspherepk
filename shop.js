@@ -51,3 +51,22 @@ async function loadProducts() {
 }
 
 loadProducts();
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("add-cart")) {
+
+    const product = {
+      id: e.target.dataset.id,
+      name: e.target.dataset.name,
+      price: e.target.dataset.price,
+      image: e.target.dataset.image
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push(product);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Product added to cart!");
+  }
+});
