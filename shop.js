@@ -32,10 +32,17 @@ async function loadProducts() {
           <img src="${product.image}" class="card-img-top" alt="${product.name}">
           <div class="card-body text-center">
             <h5>${product.name}</h5>
-            <h4 class="text-danger">${product.price}</h4>
-            <a href="${product.link}" target="_blank" class="btn btn-warning">
-              Buy Now
+            <a href="${product.link}" target="_blank" class="btn btn-warning w-100 mb-2">
+             Buy Now
             </a>
+
+            <button class="btn btn-dark w-100 add-cart"
+            data-id="${doc.id}"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-image="${product.image}">
+            🛒 Add to Cart
+            </button>
           </div>
         </div>
       </div>
