@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+alert("shop.js loaded");
 import {
   getFirestore,
   collection,
