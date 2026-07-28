@@ -48,3 +48,15 @@ async function loadHomeProducts() {
 }
 
 loadHomeProducts();
+// Cart Counter
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const badge = document.getElementById("cartCount");
+
+  if (badge) {
+    badge.innerText = cart.length;
+  }
+}
+
+updateCartCount();
