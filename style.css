@@ -151,3 +151,57 @@ footer{
     color: #fff;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
 }
+/* =========================
+   Premium Navbar
+========================= */
+
+.navbar{
+    background:#111 !important;
+    padding:15px 0;
+    box-shadow:0 5px 20px rgba(0,0,0,.35);
+}
+
+.navbar-brand{
+    font-size:28px;
+    font-weight:700;
+    color:#ffc107 !important;
+}
+
+.navbar-nav{
+    gap:10px;
+}
+
+.nav-link{
+    color:#fff !important;
+    font-size:16px;
+    font-weight:600;
+    padding:10px 15px !important;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.nav-link:hover{
+    background:#ffc107;
+    color:#000 !important;
+    transform:translateY(-2px);
+}
+
+.nav-icon{
+    font-size:22px;
+}
+
+.form-control{
+    border-radius:30px;
+    padding:10px 20px;
+    border:none;
+}
+
+.form-control:focus{
+    box-shadow:0 0 15px rgba(255,193,7,.5);
+}
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
