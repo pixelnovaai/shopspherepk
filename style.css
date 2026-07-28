@@ -123,3 +123,31 @@ footer{
     width:100%;
   }
 }
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.carousel-caption {
+    z-index: 2;
+    bottom: 25%;
+}
+
+.carousel-caption h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 3px 3px 10px rgba(0,0,0,0.9);
+}
+
+.carousel-caption p {
+    font-size: 1.3rem;
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+}
