@@ -1,11 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-alert("shop.js loaded");
 import {
   getFirestore,
   collection,
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyClUl486Em2Cq4PjOtal-3B-Gt_I5NqPCY",
   authDomain: "nexacart-94526.firebaseapp.com",
@@ -15,10 +15,13 @@ const firebaseConfig = {
   appId: "1:843284374047:web:b8e18e6ed7b5326641eb2a"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const productsContainer = document.getElementById("products");
 
+// Load Products
 async function loadProducts() {
   productsContainer.innerHTML = "";
 
@@ -33,17 +36,24 @@ async function loadProducts() {
           <img src="${product.image}" class="card-img-top" alt="${product.name}">
           <div class="card-body text-center">
             <h5>${product.name}</h5>
+
+            <p class="text-danger fw-bold">
+              Rs. ${product.price}
+            </p>
+
             <a href="${product.link}" target="_blank" class="btn btn-warning w-100 mb-2">
-             Buy Now
+              Buy Now
             </a>
 
-            <button class="btn btn-dark w-100 add-cart"
-            data-id="${doc.id}"
-            data-name="${product.name}"
-            data-price="${product.price}"
-            data-image="${product.image}">
-            🛒 Add to Cart
+            <button
+              class="btn btn-dark w-100 add-cart"
+              data-id="${doc.id}"
+              data-name="${product.name}"
+              data-price="${product.price}"
+              data-image="${product.image}">
+              🛒 Add to Cart
             </button>
+
           </div>
         </div>
       </div>
@@ -52,7 +62,10 @@ async function loadProducts() {
 }
 
 loadProducts();
+
+// Add To Cart
 document.addEventListener("click", (e) => {
+
   if (e.target.classList.contains("add-cart")) {
 
     const product = {
@@ -68,26 +81,24 @@ document.addEventListener("click", (e) => {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
+    updateCartCount();
+
     alert("Product added to cart!");
   }
-});
-console.log("shop.js loaded");
-function updateCartCount() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    document.getElementById("cartCount").innerText = cart.length;
-}
-alert("Product added to cart!");
-updateCartCount();
+
 });
 
+// Cart Counter
 function updateCartCount() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const badge = document.getElementById("cartCount");
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    if (badge) {
-        badge.innerText = cart.length;
-    }
+  const badge = document.getElementById("cartCount");
+
+  if (badge) {
+    badge.innerText = cart.length;
+  }
+
 }
 
 updateCartCount();
