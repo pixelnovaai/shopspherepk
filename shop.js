@@ -72,3 +72,9 @@ document.addEventListener("click", (e) => {
   }
 });
 console.log("shop.js loaded");
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    document.getElementById("cartCount").innerText = cart.length;
+}
+alert("Product added to cart!");
+updateCartCount();
