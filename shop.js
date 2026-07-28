@@ -78,3 +78,16 @@ function updateCartCount() {
 }
 alert("Product added to cart!");
 updateCartCount();
+});
+
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const badge = document.getElementById("cartCount");
+
+    if (badge) {
+        badge.innerText = cart.length;
+    }
+}
+
+updateCartCount();
