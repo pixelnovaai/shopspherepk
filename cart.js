@@ -51,9 +51,13 @@ total += itemTotal;
             Rs. ${itemTotal}
         </td>
 
-        <td>
-            ${quantity}
-        </td>
+       <td>
+           <button class="btn btn-sm btn-danger decrease" data-index="${index}">-</button>
+
+           <span class="mx-2 fw-bold">${quantity}</span>
+
+           <button class="btn btn-sm btn-success increase" data-index="${index}">+</button>
+       </td>
 
         <td>
             Rs. ${price}
@@ -83,6 +87,35 @@ document.addEventListener("click", function(e){
 
         location.reload();
 
+    }
+
+});
+document.addEventListener("click", function(e){
+
+    if(e.target.classList.contains("increase")){
+
+        const index = e.target.dataset.index;
+
+        cart[index].quantity += 1;
+
+        saveCart(cart);
+
+        location.reload();
+    }
+
+    if(e.target.classList.contains("decrease")){
+
+        const index = e.target.dataset.index;
+
+        if(cart[index].quantity > 1){
+            cart[index].quantity -= 1;
+        }else{
+            cart.splice(index,1);
+        }
+
+        saveCart(cart);
+
+        location.reload();
     }
 
 });
