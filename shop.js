@@ -72,12 +72,19 @@ document.addEventListener("click", (e) => {
       id: e.target.dataset.id,
       name: e.target.dataset.name,
       price: e.target.dataset.price,
-      image: e.target.dataset.image
+      image: e.target.dataset.image,
+      quantity: 1
     };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    cart.push(product);
+    const existingProduct = cart.find(item => item.id === product.id);
+
+    if (existingProduct) {
+      existingProduct.quantity += 1;
+    } else {
+      cart.push(product);
+    }
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
