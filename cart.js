@@ -1,121 +1,134 @@
-function getCart() {
-    return JSON.parse(localStorage.getItem("cart")) || [];
-}
+// Get cart from localStorage
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-function updateCartCount() {
-    const cart = getCart();
-    const badge = document.getElementById("cartCount");
-
-    if (badge) {
-        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        badge.innerText = totalItems;
-    }
-}
-
-let cart = getCart();
-
+// HTML Elements
 const cartItems = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 
-let total = 0;
+// Render Cart
+function renderCart() {
 
-cartItems.innerHTML = "";
+    cartItems.innerHTML = "";
 
-cart.forEach((product, index) => {
+    let grandTotal = 0;
 
-   const price = Number(
-    product.price.toString().replace(/[^0-9]/g, "")
-);
+    if (cart.length === 0) {
 
-const quantity = product.quantity || 1;
+        cartItems.innerHTML = `
+        <tr>
+            <td colspan="5">
+                <h4>Your Cart is Empty 😔</h4>
+            </td>
+        </tr>
+        `;
 
-const itemTotal = price * quantity;
+        cartTotal.innerText = "Rs. 0";
+        return;
+    }
 
-total += itemTotal;
+    cart.forEach((product, index) => {
 
-    total += price;
+        let price = Number(
+            product.price.toString().replace(/[^0-9]/g, "")
+        );
 
-    cartItems.innerHTML += `
-    <tr>
+        if (!product.quantity) {
+            product.quantity = 1;
+        }
 
-        <td>
-            <img src="${product.image}" width="60"><br>
-            ${product.name}
-        </td>
+        let itemTotal = price * product.quantity;
 
-        <td>
-            Rs. ${itemTotal}
-        </td>
+        grandTotal += itemTotal;
 
-       <td>
-           <button class="btn btn-sm btn-danger decrease" data-index="${index}">-</button>
+        cartItems.innerHTML += `
+        <tr>
 
-           <span class="mx-2 fw-bold">${quantity}</span>
+            <td>
+                <img src="${product.image}" width="60"><br>
+                ${product.name}
+            </td>
 
-           <button class="btn btn-sm btn-success increase" data-index="${index}">+</button>
-       </td>
+            <td>
+                Rs. ${price}
+            </td>
 
-        <td>
-            Rs. ${price}
-        </td>
+            <td>
+    <button class="btn btn-sm btn-danger decrease" data-index="${index}">-</button>
 
-        <td>
-            <button class="btn btn-danger btn-sm remove-btn" data-index="${index}">
-                🗑 Remove
-            </button>
-        </td>
+    <span class="mx-2 fw-bold">${product.quantity}</span>
 
-    </tr>
-    `;
-});
+    <button class="btn btn-sm btn-success increase" data-index="${index}">+</button>
+           </td>
 
-cartTotal.innerText = "Rs. " + total;
+            <td>
+                Rs. ${itemTotal}
+            </td>
 
-document.addEventListener("click", function(e){
+            <td>
+                <button class="btn btn-danger btn-sm remove-btn" data-index="${index}">
+                    🗑 Remove
+                </button>
+            </td>
 
-    if(e.target.classList.contains("remove-btn")){
+        </tr>
+        `;
+    });
+
+    cartTotal.innerText = "Rs. " + grandTotal;
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+// Start
+renderCart();
+// Remove Product
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("remove-btn")) {
 
         const index = e.target.dataset.index;
 
-        cart.splice(index,1);
+        cart.splice(index, 1);
 
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        location.reload();
-
+        renderCart();
     }
 
 });
-document.addEventListener("click", function(e){
 
-    if(e.target.classList.contains("increase")){
+// Increase Quantity
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("increase")) {
 
         const index = e.target.dataset.index;
 
-        cart[index].quantity += 1;
+        cart[index].quantity++;
 
-        saveCart(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
 
-        location.reload();
+        renderCart();
     }
 
-    if(e.target.classList.contains("decrease")){
+});
+
+// Decrease Quantity
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("decrease")) {
 
         const index = e.target.dataset.index;
 
-        if(cart[index].quantity > 1){
-            cart[index].quantity -= 1;
-        }else{
-            cart.splice(index,1);
+        if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+        } else {
+            cart.splice(index, 1);
         }
 
-        saveCart(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
 
-        location.reload();
+        renderCart();
     }
 
 });
