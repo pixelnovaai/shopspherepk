@@ -9,7 +9,8 @@ cartItems.innerHTML = "";
 
 cart.forEach((product, index) => {
 
-total += Number(product.price);
+const price = parseFloat(product.price.toString().replace(/[^0-9.]/g, ""));
+total += price;
 
 cartItems.innerHTML += `
 <tr>
@@ -20,7 +21,7 @@ ${product.name}
 </td>
 
 <td>
-Rs. ${product.price}
+Rs. ${price}
 </td>
 
 <td>
@@ -28,7 +29,7 @@ Rs. ${product.price}
 </td>
 
 <td>
-Rs. ${product.price}
+Rs. ${price}
 </td>
 
 </tr>
