@@ -48,11 +48,11 @@ total += itemTotal;
         </td>
 
         <td>
-            Rs. ${price}
+            Rs. ${itemTotal}
         </td>
 
         <td>
-            1
+            ${quantity}
         </td>
 
         <td>
