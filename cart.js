@@ -28,6 +28,13 @@ Rs. ${price}
 </td>
 
 <td>
+<button class="btn btn-danger btn-sm remove-btn" data-index="${index}">
+🗑 Remove
+</button>
+</td>
+
+</tr>
+
 1
 </td>
 
@@ -41,3 +48,18 @@ Rs. ${price}
 });
 
 cartTotal.innerText = "Rs. " + total;
+document.addEventListener("click", function(e){
+
+if(e.target.classList.contains("remove-btn")){
+
+const index = e.target.dataset.index;
+
+cart.splice(index,1);
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+location.reload();
+
+}
+
+});
