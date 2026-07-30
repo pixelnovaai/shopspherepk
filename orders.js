@@ -3,7 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebas
 import {
   getFirestore,
   collection,
-  getDocs
+  getDocs,
+doc,
+updateDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 // Firebase Config
@@ -56,3 +58,23 @@ ${order.status}
 }
 
 loadOrders();
+document.addEventListener("click", async (e) => {
+
+    if (e.target.classList.contains("status-btn")) {
+
+        const id = e.target.dataset.id;
+        const currentStatus = e.target.dataset.status;
+
+        const newStatus =
+            currentStatus === "Pending"
+                ? "Completed"
+                : "Pending";
+
+        await updateDoc(doc(db, "orders", id), {
+            status: newStatus
+        });
+
+        location.reload();
+    }
+
+});
