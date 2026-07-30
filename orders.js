@@ -39,7 +39,14 @@ async function loadOrders() {
             <td>${order.paymentMethod}</td>
             <td>${order.totalItems}</td>
             <td>Rs. ${order.totalPrice}</td>
-            <td>${order.status}</td>
+            <td>
+<button
+class="btn btn-sm btn-warning status-btn"
+data-id="${doc.id}"
+data-status="${order.status}">
+${order.status}
+</button>
+</td>
             <td>${order.orderDate}</td>
         </tr>
         `;
