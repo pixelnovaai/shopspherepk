@@ -58,8 +58,8 @@ ${order.status}
 }
 
 loadOrders();
-document.addEventListener("click", async (e) => {
-
+ordersTable.addEventListener("click", async (e) => {
+    alert("Button Clicked");
     if (e.target.classList.contains("status-btn")) {
 
         const id = e.target.dataset.id;
