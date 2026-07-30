@@ -1,3 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyClUl486Em2Cq4PjOtal-3B-Gt_I5NqPCY",
+  authDomain: "nexacart-94526.firebaseapp.com",
+  projectId: "nexacart-94526",
+  storageBucket: "nexacart-94526.firebasestorage.app",
+  messagingSenderId: "843284374047",
+  appId: "1:843284374047:web:b8e18e6ed7b5326641eb2a"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 console.log(cart);
@@ -25,7 +44,7 @@ totalPrice.innerText = "Rs. " + price;
 // Place Order System
 const placeOrderBtn = document.getElementById("placeOrderBtn");
 
-placeOrderBtn.addEventListener("click", function () {
+placeOrderBtn.addEventListener("click", async function () {
 
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
@@ -35,6 +54,21 @@ placeOrderBtn.addEventListener("click", function () {
         alert("Please fill all required fields.");
         return;
     }
+await addDoc(collection(db, "orders"), {
+    customerName: name,
+    phone: phone,
+    address: address,
+    paymentMethod: document.querySelector("select").value,
+
+    totalItems: items,
+    totalPrice: price,
+
+    products: cart,
+
+    orderDate: new Date().toLocaleString(),
+
+    status: "Pending"
+});
 
     alert("🎉 Your Order has been placed successfully!");
 
