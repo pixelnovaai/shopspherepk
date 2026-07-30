@@ -54,25 +54,35 @@ placeOrderBtn.addEventListener("click", async function () {
         alert("Please fill all required fields.");
         return;
     }
-await addDoc(collection(db, "orders"), {
-    customerName: name,
-    phone: phone,
-    address: address,
-    paymentMethod: document.querySelector("select").value,
 
-    totalItems: items,
-    totalPrice: price,
+try {
 
-    products: cart,
+    await addDoc(collection(db, "orders"), {
+        customerName: name,
+        phone: phone,
+        address: address,
+        paymentMethod: document.querySelector("select").value,
 
-    orderDate: new Date().toLocaleString(),
+        totalItems: items,
+        totalPrice: price,
 
-    status: "Pending"
-});
+        products: cart,
+
+        orderDate: new Date().toLocaleString(),
+
+        status: "Pending"
+    });
 
     alert("🎉 Your Order has been placed successfully!");
 
     localStorage.removeItem("cart");
 
     window.location.href = "index.html";
-});
+
+} catch (error) {
+
+    console.error(error);
+
+    alert(error.message);
+
+}
