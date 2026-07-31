@@ -19,7 +19,8 @@ const db = getFirestore(app);
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-console.log(cart);
+console.log("Cart Data:", cart);
+console.log("Raw LocalStorage:", localStorage.getItem("cart"));
 
 const totalItems = document.getElementById("totalItems");
 const totalPrice = document.getElementById("totalPrice");
