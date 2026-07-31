@@ -1,11 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-
 import {
   getFirestore,
   collection,
   getDocs,
-doc,
-updateDoc
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 // Firebase Config
@@ -25,13 +24,13 @@ const ordersTable = document.getElementById("ordersTable");
 
 async function loadOrders() {
 
-    const snapshot = await getDocs(collection(db, "orders"));
-
     ordersTable.innerHTML = "";
 
-    snapshot.forEach((doc) => {
+    const snapshot = await getDocs(collection(db, "orders"));
 
-        const order = doc.data();
+    snapshot.forEach((orderDoc) => {
+
+        const order = orderDoc.data();
 
         ordersTable.innerHTML += `
         <tr>
@@ -42,39 +41,38 @@ async function loadOrders() {
             <td>${order.totalItems}</td>
             <td>Rs. ${order.totalPrice}</td>
             <td>
-<button
-class="btn btn-sm btn-warning status-btn"
-data-id="${doc.id}"
-data-status="${order.status}">
-${order.status}
-</button>
-</td>
+                <button
+                    class="btn btn-sm ${order.status === "Pending" ? "btn-warning" : "btn-success"} status-btn"
+                    data-id="${orderDoc.id}"
+                    data-status="${order.status}">
+                    ${order.status}
+                </button>
+            </td>
             <td>${order.orderDate}</td>
         </tr>
         `;
-
     });
-
 }
 
 loadOrders();
-ordersTable.addEventListener("click", async (e) => {
-    alert("Button Clicked");
-    if (e.target.classList.contains("status-btn")) {
 
-        const id = e.target.dataset.id;
-        const currentStatus = e.target.dataset.status;
+ordersTable.onclick = async function (e) {
 
-        const newStatus =
-            currentStatus === "Pending"
-                ? "Completed"
-                : "Pending";
+    const button = e.target.closest(".status-btn");
 
-        await updateDoc(doc(db, "orders", id), {
-            status: newStatus
-        });
+    if (!button) return;
 
-        location.reload();
-    }
+    const id = button.dataset.id;
+    const currentStatus = button.dataset.status;
 
-});
+    const newStatus =
+        currentStatus === "Pending"
+            ? "Completed"
+            : "Pending";
+
+    await updateDoc(doc(db, "orders", id), {
+        status: newStatus
+    });
+
+    loadOrders();
+};
