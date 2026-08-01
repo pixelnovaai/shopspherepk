@@ -343,3 +343,49 @@ footer{
     background:var(--secondary);
     color:#fff;
 }
+/* Premium Navbar */
+
+.search-box{
+    width:40%;
+}
+
+.search-box input{
+    height:48px;
+    border-radius:50px;
+    border:none;
+    padding-left:20px;
+    transition:.3s;
+}
+
+.search-box input:focus{
+    box-shadow:0 0 15px rgba(255,107,0,.4);
+}
+
+.navbar-brand{
+    letter-spacing:1px;
+}
+
+.nav-link{
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#ff6b00 !important;
+}
+
+#cartCount{
+    font-size:11px;
+    padding:6px;
+    min-width:20px;
+}
+
+@media(max-width:992px){
+
+.search-box{
+
+width:100%;
+margin:20px 0;
+
+}
+
+}

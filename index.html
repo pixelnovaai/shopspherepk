@@ -12,7 +12,8 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark">
+
 <div class="container">
 
 <a class="navbar-brand fw-bold" href="index.html">
@@ -25,47 +26,74 @@
 
 <div class="collapse navbar-collapse" id="menu">
 
-<form class="d-flex mx-auto" style="width:35%;">
-<input class="form-control" type="search" placeholder="Search Products">
+<form class="d-flex mx-auto search-box">
+
+<input
+class="form-control"
+type="search"
+placeholder="🔍 Search Products...">
+
 </form>
-<ul class="navbar-nav ms-auto align-items-center gap-2">
+
+<ul class="navbar-nav ms-auto align-items-center gap-3">
 
 <li class="nav-item">
-<a class="nav-link" href="index.html">🏠 Home</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="shop.html">🛍️ Shop</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#">🔥 Deals</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="about.html">ℹ️ About</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="contact.html">📞 Contact</a>
-</li>
-
-<li class="nav-item ms-2">
-<a class="nav-link nav-icon position-relative" href="cart.html">
-🛒
-<span id="cartCount"
-class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-0
-</span>
+<a class="nav-link active" href="index.html">
+🏠 Home
 </a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link nav-icon" href="#">❤️</a>
+<a class="nav-link" href="shop.html">
+🛍 Shop
+</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link nav-icon" href="login.html">👤</a>
+<a class="nav-link" href="#">
+🔥 Deals
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="about.html">
+ℹ About
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="contact.html">
+📞 Contact
+</a>
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link position-relative" href="cart.html">
+
+🛒
+
+<span id="cartCount"
+class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle">
+
+0
+
+</span>
+
+</a>
+
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#">
+❤️
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="login.html">
+👤
+</a>
 </li>
 
 </ul>
@@ -73,6 +101,7 @@ class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-
 </div>
 
 </div>
+
 </nav>
 <section id="heroSlider" class="carousel slide" data-bs-ride="carousel">
 
