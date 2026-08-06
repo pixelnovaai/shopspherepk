@@ -7,9 +7,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-// ================================
-// FIREBASE CONFIG
-// ================================
+// ========================================
+// FIREBASE
+// ========================================
 
 const firebaseConfig = {
   apiKey: "AIzaSyClUl486Em2Cq4PjOtal-3B-Gt_I5NqPCY",
@@ -20,27 +20,19 @@ const firebaseConfig = {
   appId: "1:843284374047:web:b8e18e6ed7b5326641eb2a"
 };
 
-
-// ================================
-// INITIALIZE FIREBASE
-// ================================
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const productsContainer = document.getElementById("products");
 
 
-// ================================
+// ========================================
 // LOAD PRODUCTS
-// ================================
+// ========================================
 
 async function loadProducts() {
 
-  if (!productsContainer) {
-    console.error("Products container not found!");
-    return;
-  }
+  if (!productsContainer) return;
 
   productsContainer.innerHTML = `
     <div class="col-12 text-center py-5">
@@ -63,7 +55,7 @@ async function loadProducts() {
         <div class="col-12 text-center py-5">
           <h4>No products found</h4>
           <p class="text-muted">
-            Add products in Firebase Firestore.
+            Add products from Firebase.
           </p>
         </div>
       `;
@@ -76,51 +68,47 @@ async function loadProducts() {
 
       const product = doc.data();
 
-      console.log("Firebase Product:", product);
-
-
-      // ================================
-      // PRODUCT DATA
-      // ================================
-
+      // Product name
       const name =
-        String(product.name ?? "Product");
+        product.name || "Product";
 
 
-      /*
-        IMPORTANT:
-        Price ko String mein convert kar rahe hain.
-        Is se Firebase mein price String ho
-        ya Number, dono work karenge.
-      */
+      // ========================================
+      // PRICE FIX
+      // Firebase price can be STRING or NUMBER
+      // ========================================
 
-      let price = product.price;
+      let rawPrice = product.price;
 
-      if (
-        price === undefined ||
-        price === null ||
-        price === ""
-      ) {
-        price = "Price not available";
-      } else {
-        price = String(price).trim();
+      let price = Number(
+        String(rawPrice ?? "")
+          .replace(/Rs\.?/gi, "")
+          .replace(/,/g, "")
+          .trim()
+      );
+
+      if (!Number.isFinite(price)) {
+        price = 0;
       }
 
+      const formattedPrice =
+        price.toLocaleString("en-PK");
 
+
+      // Image
       const image =
-        String(
-          product.image ??
-          "https://via.placeholder.com/500x400?text=Product"
-        );
+        product.image ||
+        "https://via.placeholder.com/500x400?text=Product";
 
 
+      // Link
       const link =
-        String(product.link ?? "#");
+        product.link || "#";
 
 
-      // ================================
+      // ========================================
       // PRODUCT CARD
-      // ================================
+      // ========================================
 
       productsContainer.innerHTML += `
 
@@ -153,7 +141,7 @@ async function loadProducts() {
 
 
               <h4 class="product-price text-danger fw-bold">
-                Rs. ${price}
+                Rs. ${formattedPrice}
               </h4>
 
 
@@ -172,13 +160,9 @@ async function loadProducts() {
                 <button
                   type="button"
                   class="btn btn-dark w-100 add-cart"
-
                   data-id="${doc.id}"
-
                   data-name="${name}"
-
                   data-price="${price}"
-
                   data-image="${image}"
                 >
                   🛒 Add to Cart
@@ -199,11 +183,7 @@ async function loadProducts() {
 
   } catch (error) {
 
-    console.error(
-      "Firebase Error:",
-      error
-    );
-
+    console.error("Firebase Error:", error);
 
     productsContainer.innerHTML = `
 
@@ -226,90 +206,79 @@ async function loadProducts() {
 }
 
 
-// ================================
+// ========================================
 // ADD TO CART
-// ================================
+// ========================================
 
-document.addEventListener(
-  "click",
-  function (event) {
+document.addEventListener("click", function (e) {
 
-    const button =
-      event.target.closest(".add-cart");
+  const button = e.target.closest(".add-cart");
 
-    if (!button) return;
+  if (!button) return;
 
 
-    const product = {
+  const product = {
 
-      id: button.dataset.id,
+    id: button.dataset.id,
 
-      name: button.dataset.name,
+    name: button.dataset.name,
 
-      price: button.dataset.price,
+    price: Number(button.dataset.price) || 0,
 
-      image: button.dataset.image,
+    image: button.dataset.image,
 
-      quantity: 1
+    quantity: 1
 
-    };
-
-
-    let cart =
-      JSON.parse(
-        localStorage.getItem("cart")
-      ) || [];
+  };
 
 
-    const existingProduct =
-      cart.find(
-        item => item.id === product.id
-      );
+  let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
 
 
-    if (existingProduct) {
-
-      existingProduct.quantity =
-        (existingProduct.quantity || 1) + 1;
-
-    } else {
-
-      cart.push(product);
-
-    }
+  const existing =
+    cart.find(item => item.id === product.id);
 
 
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cart)
-    );
+  if (existing) {
 
+    existing.quantity =
+      (Number(existing.quantity) || 0) + 1;
 
-    updateCartCount();
+  } else {
 
-
-    alert("Product added to cart!");
+    cart.push(product);
 
   }
-);
 
 
-// ================================
-// CART COUNTER
-// ================================
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
+
+  updateCartCount();
+
+  alert("✅ Product added to cart!");
+
+});
+
+
+// ========================================
+// CART COUNT
+// ========================================
 
 function updateCartCount() {
 
   const cart =
-    JSON.parse(
-      localStorage.getItem("cart")
-    ) || [];
+    JSON.parse(localStorage.getItem("cart")) || [];
 
 
-  const totalItems =
+  const total =
     cart.reduce(
-      (total, item) =>
-        total + Number(item.quantity || 1),
+      (sum, item) =>
+        sum + (Number(item.quantity) || 1),
       0
     );
 
@@ -320,16 +289,16 @@ function updateCartCount() {
 
   if (badge) {
 
-    badge.innerText = totalItems;
+    badge.innerText = total;
 
   }
 
 }
 
 
-// ================================
+// ========================================
 // START
-// ================================
+// ========================================
 
 loadProducts();
 
