@@ -7,9 +7,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-// ========================================
+// ================================
 // FIREBASE CONFIG
-// ========================================
+// ================================
 
 const firebaseConfig = {
   apiKey: "AIzaSyClUl486Em2Cq4PjOtal-3B-Gt_I5NqPCY",
@@ -21,9 +21,9 @@ const firebaseConfig = {
 };
 
 
-// ========================================
-// FIREBASE
-// ========================================
+// ================================
+// INITIALIZE FIREBASE
+// ================================
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -31,14 +31,14 @@ const db = getFirestore(app);
 const productsContainer = document.getElementById("products");
 
 
-// ========================================
+// ================================
 // LOAD PRODUCTS
-// ========================================
+// ================================
 
 async function loadProducts() {
 
   if (!productsContainer) {
-    console.error("Products container not found.");
+    console.error("Products container not found!");
     return;
   }
 
@@ -61,9 +61,9 @@ async function loadProducts() {
 
       productsContainer.innerHTML = `
         <div class="col-12 text-center py-5">
-          <h4>No Products Found</h4>
+          <h4>No products found</h4>
           <p class="text-muted">
-            Add products from Firebase.
+            Add products in Firebase Firestore.
           </p>
         </div>
       `;
@@ -76,19 +76,23 @@ async function loadProducts() {
 
       const product = doc.data();
 
+      console.log("Firebase Product:", product);
 
-      // PRODUCT NAME
+
+      // ================================
+      // PRODUCT DATA
+      // ================================
 
       const name =
-        product.name
-          ? String(product.name)
-          : "Product";
+        String(product.name ?? "Product");
 
 
-      // ========================================
-      // PRICE FIX
-      // Handles String + Number
-      // ========================================
+      /*
+        IMPORTANT:
+        Price ko String mein convert kar rahe hain.
+        Is se Firebase mein price String ho
+        ya Number, dono work karenge.
+      */
 
       let price = product.price;
 
@@ -97,51 +101,32 @@ async function loadProducts() {
         price === null ||
         price === ""
       ) {
-        price = "0";
+        price = "Price not available";
+      } else {
+        price = String(price).trim();
       }
 
-      // Convert price to string first
-      price = String(price);
-
-      // Remove Rs, commas and spaces
-      price = price
-        .replace(/Rs\.?/gi, "")
-        .replace(/,/g, "")
-        .trim();
-
-      // Convert to number
-      const numericPrice = Number(price);
-
-      // Final display price
-      const displayPrice =
-        Number.isNaN(numericPrice)
-          ? price
-          : numericPrice.toLocaleString("en-PK");
-
-
-      // IMAGE
 
       const image =
-        product.image ||
-        "https://via.placeholder.com/500x400?text=Nova+Mart";
+        String(
+          product.image ??
+          "https://via.placeholder.com/500x400?text=Product"
+        );
 
-
-      // LINK
 
       const link =
-        product.link ||
-        "#";
+        String(product.link ?? "#");
 
 
-      // ========================================
+      // ================================
       // PRODUCT CARD
-      // ========================================
+      // ================================
 
       productsContainer.innerHTML += `
 
         <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4">
 
-          <div class="card product-card h-100 shadow-sm">
+          <div class="card product-card h-100">
 
             <div class="product-image">
 
@@ -150,7 +135,6 @@ async function loadProducts() {
                 class="card-img-top"
                 alt="${name}"
                 loading="lazy"
-                onerror="this.src='https://via.placeholder.com/500x400?text=Product'"
               >
 
             </div>
@@ -158,25 +142,22 @@ async function loadProducts() {
 
             <div class="card-body d-flex flex-column">
 
-              <h5 class="product-name fw-bold">
+              <h5 class="product-name">
                 ${name}
               </h5>
 
 
-              <p class="mb-2">
+              <div class="product-rating mb-2">
                 ⭐⭐⭐⭐⭐
-              </p>
+              </div>
 
 
-              <h4 class="product-price text-danger fw-bold mb-3">
-
-                Rs. ${displayPrice}
-
+              <h4 class="product-price text-danger fw-bold">
+                Rs. ${price}
               </h4>
 
 
               <div class="mt-auto">
-
 
                 <a
                   href="${link}"
@@ -196,13 +177,12 @@ async function loadProducts() {
 
                   data-name="${name}"
 
-                  data-price="${numericPrice}"
+                  data-price="${price}"
 
                   data-image="${image}"
                 >
                   🛒 Add to Cart
                 </button>
-
 
               </div>
 
@@ -219,18 +199,22 @@ async function loadProducts() {
 
   } catch (error) {
 
-    console.error("Firebase Error:", error);
+    console.error(
+      "Firebase Error:",
+      error
+    );
+
 
     productsContainer.innerHTML = `
 
       <div class="col-12 text-center py-5">
 
         <h4 class="text-danger">
-          Unable to Load Products
+          Unable to load products
         </h4>
 
         <p class="text-muted">
-          Check Firebase connection.
+          ${error.message}
         </p>
 
       </div>
@@ -242,75 +226,77 @@ async function loadProducts() {
 }
 
 
-// ========================================
+// ================================
 // ADD TO CART
-// ========================================
+// ================================
 
-document.addEventListener("click", (event) => {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  const button =
-    event.target.closest(".add-cart");
+    const button =
+      event.target.closest(".add-cart");
 
-  if (!button) return;
-
-
-  const product = {
-
-    id: button.dataset.id,
-
-    name: button.dataset.name,
-
-    price: Number(button.dataset.price) || 0,
-
-    image: button.dataset.image,
-
-    quantity: 1
-
-  };
+    if (!button) return;
 
 
-  let cart =
-    JSON.parse(
-      localStorage.getItem("cart")
-    ) || [];
+    const product = {
+
+      id: button.dataset.id,
+
+      name: button.dataset.name,
+
+      price: button.dataset.price,
+
+      image: button.dataset.image,
+
+      quantity: 1
+
+    };
 
 
-  const existingProduct =
-    cart.find(
-      item => item.id === product.id
+    let cart =
+      JSON.parse(
+        localStorage.getItem("cart")
+      ) || [];
+
+
+    const existingProduct =
+      cart.find(
+        item => item.id === product.id
+      );
+
+
+    if (existingProduct) {
+
+      existingProduct.quantity =
+        (existingProduct.quantity || 1) + 1;
+
+    } else {
+
+      cart.push(product);
+
+    }
+
+
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(cart)
     );
 
 
-  if (existingProduct) {
+    updateCartCount();
 
-    existingProduct.quantity += 1;
 
-  } else {
-
-    cart.push(product);
+    alert("Product added to cart!");
 
   }
+);
 
 
-  localStorage.setItem(
-    "cart",
-    JSON.stringify(cart)
-  );
-
-
-  updateCartCount();
-
-
-  alert(
-    product.name + " added to cart!"
-  );
-
-});
-
-
-// ========================================
-// CART COUNT
-// ========================================
+// ================================
+// CART COUNTER
+// ================================
 
 function updateCartCount() {
 
@@ -341,9 +327,9 @@ function updateCartCount() {
 }
 
 
-// ========================================
+// ================================
 // START
-// ========================================
+// ================================
 
 loadProducts();
 
